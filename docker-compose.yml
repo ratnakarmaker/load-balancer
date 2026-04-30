@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  project-one:
+    build: ./project-one
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+
+  project-two:
+    build: ./project-two
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+
+  project-three:
+    build: ./project-three
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+
+  loadbalancer:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - project-one
+      - project-two
+      - project-three
